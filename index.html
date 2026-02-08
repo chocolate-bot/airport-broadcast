@@ -425,8 +425,25 @@
 
     <section class="broadcast-section">
         <h2 class="section-title">登机广播 · Boarding</h2>
-        <div class="broadcast-card" data-broadcast="boarding">
-            <div class="broadcast-name">登机广播</div>
+        <div class="broadcast-card" data-broadcast="ca189">
+            <div class="broadcast-name">CA189 登机广播</div>
+            <div class="lang-buttons">
+                <button class="lang-btn disabled" data-lang="zh">
+                    <span class="lang-icon">中</span>
+                    <span class="lang-label">中文</span>
+                </button>
+                <button class="lang-btn disabled" data-lang="en">
+                    <span class="lang-icon">En</span>
+                    <span class="lang-label">English</span>
+                </button>
+                <button class="lang-btn" data-lang="mn">
+                    <span class="lang-icon">閩</span>
+                    <span class="lang-label">闽南语</span>
+                </button>
+            </div>
+        </div>
+        <div class="broadcast-card" data-broadcast="ca185" style="margin-top: 12px;">
+            <div class="broadcast-name">CA185 登机广播</div>
             <div class="lang-buttons">
                 <button class="lang-btn disabled" data-lang="zh">
                     <span class="lang-icon">中</span>
@@ -443,11 +460,6 @@
             </div>
         </div>
     </section>
-
-    <div class="help-text">
-        将音频文件放入 <code>audio/</code> 文件夹<br>
-        命名格式: <code>oversized-zh.mp3</code> <code>boarding-mn.mp3</code>
-    </div>
 
     <!-- Player Bar - 始终显示 -->
     <div class="player-bar" id="playerBar">
@@ -477,12 +489,20 @@
                     mn: 'audio/oversized-mn.mp3'
                 }
             },
-            boarding: {
-                name: '登机广播',
+            ca189: {
+                name: 'CA189 登机广播',
                 audio: {
                     zh: null,
                     en: null,
-                    mn: 'audio/boarding-mn.mp3'
+                    mn: 'audio/ca189-mn.mp3'
+                }
+            },
+            ca185: {
+                name: 'CA185 登机广播',
+                audio: {
+                    zh: null,
+                    en: null,
+                    mn: 'audio/ca185-mn.mp3'
                 }
             }
         };
