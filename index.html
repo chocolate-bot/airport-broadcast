@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -9,195 +9,282 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* ========== Duck UI Design System ========== */
+        /* 融合 Dieter Rams、原研哉、Jony Ive 的设计智慧 */
+        /* Neo-Brutalist: 诚实的硬阴影，粗边框，无装饰 */
+
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --card-hover: #334155;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.4);
-            --text: #f1f5f9;
-            --text-dim: #94a3b8;
-            --success: #10b981;
-            --danger: #ef4444;
-            --radius: 16px;
+            /* 品牌色 - Color with purpose */
+            --brand-blue: #7BCBFF;      /* 信任与开放 */
+            --brand-yellow: #FFE66A;    /* 温暖与重要 */
+            
+            /* 语义色 */
+            --semantic-mint: #6FD8C7;   /* 成功与积极 */
+            --semantic-coral: #FF998F;  /* 警示与注意 */
+            
+            /* Light Theme */
+            --bg-primary: #F7F3EC;      /* 奶油米白 */
+            --bg-secondary: #FBFAF8;    /* 近白次级 */
+            --bg-card: #FFFFFF;         /* 卡片纯白 */
+            
+            --text-primary: #3F3F3F;    /* 主文字 */
+            --text-secondary: #6A6A6A;  /* 次要文字 */
+            --text-disabled: #A0A0A0;   /* 禁用/提示 */
+            
+            --border-color: #A8A8A8;    /* 主边框 */
+            --shadow-color: #B5B5B5;    /* 阴影颜色 */
+            
+            /* Neo-Brutalist 系统值 */
+            --border-width: 2px;
+            --radius-sm: 2px;
+            --radius-md: 4px;
+            --radius-lg: 8px;
+            --radius-full: 9999px;
+            
+            /* 硬阴影 - 诚实的深度表达 */
+            --shadow-sm: 3px 3px 0 0 var(--shadow-color);
+            --shadow-md: 5px 5px 0 0 var(--shadow-color);
+            --shadow-lg: 7px 7px 0 0 var(--shadow-color);
+            
+            /* 间距系统 (8pt grid) */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            
+            /* 动画 */
+            --duration-fast: 150ms;
+            --duration-normal: 200ms;
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * {
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-primary: #1A1A1A;
+            --bg-secondary: #2A2A2A;
+            --bg-card: #242424;
+            
+            --text-primary: #F8F8F7;
+            --text-secondary: #CFCFCF;
+            --text-disabled: #6A6A6A;
+            
+            --border-color: #E8E8E8;
+            --shadow-color: #000000;
+        }
+
+        /* ========== Reset ========== */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* ========== Base ========== */
+        body {
+            font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: var(--space-md);
+            padding-bottom: 120px;
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: 'Inter', 'Noto Sans SC', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            min-height: 100dvh;
-            padding: 20px;
-            padding-bottom: 120px;
-        }
-
+        /* ========== Header ========== */
         .header {
             text-align: center;
-            padding: 20px 0 30px;
-        }
-
-        .header-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 12px;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .header-icon svg {
-            width: 28px;
-            height: 28px;
-            fill: white;
+            padding: var(--space-lg) 0 var(--space-xl);
         }
 
         .header h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 4px;
+            letter-spacing: -0.02em;
         }
 
         .header p {
-            color: var(--text-dim);
-            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: var(--space-xs);
         }
 
+        /* ========== Section ========== */
         .broadcast-section {
-            margin-bottom: 28px;
+            margin-bottom: var(--space-lg);
         }
 
         .section-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            margin-bottom: 14px;
-            padding-left: 4px;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-md);
+            padding-left: var(--space-xs);
         }
 
-        .section-title svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
+        /* ========== Card - Neo-Brutalist ========== */
         .broadcast-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 20px;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-md);
+            transition: transform var(--duration-fast) var(--ease-smooth),
+                        box-shadow var(--duration-fast) var(--ease-smooth);
+        }
+
+        .broadcast-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .broadcast-name {
-            font-size: 1.05rem;
+            font-size: 1.125rem;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: var(--space-md);
         }
 
+        /* ========== Language Buttons ========== */
         .lang-buttons {
             display: flex;
-            gap: 10px;
+            gap: var(--space-sm);
             flex-wrap: wrap;
         }
 
         .lang-btn {
             flex: 1;
-            min-width: 90px;
-            padding: 14px 12px;
-            background: var(--bg);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            color: var(--text);
-            font-size: 0.85rem;
+            min-width: 88px;
+            padding: var(--space-md) var(--space-sm);
+            background: var(--bg-primary);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: var(--space-sm);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--duration-fast) var(--ease-smooth),
+                        box-shadow var(--duration-fast) var(--ease-smooth),
+                        background var(--duration-fast) var(--ease-smooth);
         }
 
         .lang-btn:hover {
-            background: var(--card-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .lang-btn:active {
-            transform: scale(0.96);
+            transform: translateY(2px);
+            box-shadow: 1px 1px 0 0 var(--shadow-color);
         }
 
         .lang-btn.playing {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
+            background: var(--brand-blue);
+            border-color: var(--text-primary);
         }
 
         .lang-btn.playing .lang-icon {
-            animation: pulse 1s ease-in-out infinite;
-        }
-
-        .lang-btn.playing .lang-icon svg {
-            fill: var(--accent);
+            animation: pulse 1.2s ease-in-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+            50% { transform: scale(1.1); }
         }
 
         .lang-icon {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .lang-icon svg {
-            width: 100%;
-            height: 100%;
-            fill: var(--text-dim);
-            transition: fill 0.2s ease;
-        }
-
-        .lang-btn:hover .lang-icon svg {
-            fill: var(--text);
+            font-size: 1.5rem;
+            line-height: 1;
         }
 
         .lang-label {
-            font-size: 0.8rem;
-            color: var(--text-dim);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
         }
 
         .lang-btn.playing .lang-label {
-            color: var(--accent);
+            color: var(--text-primary);
         }
 
-        /* 底部播放条 */
+        /* Disabled state */
+        .lang-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .lang-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .lang-btn.disabled:active {
+            transform: none;
+        }
+
+        /* ========== Play All Button ========== */
+        .play-all-btn {
+            width: 100%;
+            padding: var(--space-md);
+            margin-top: var(--space-md);
+            background: var(--brand-yellow);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            transition: transform var(--duration-fast) var(--ease-smooth),
+                        box-shadow var(--duration-fast) var(--ease-smooth);
+        }
+
+        .play-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .play-all-btn:active {
+            transform: translateY(2px);
+            box-shadow: 1px 1px 0 0 var(--shadow-color);
+        }
+
+        .play-all-btn.playing {
+            background: var(--semantic-coral);
+        }
+
+        .play-all-btn .icon {
+            font-size: 1rem;
+        }
+
+        /* ========== Player Bar ========== */
         .player-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: var(--card);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 14px 20px;
-            padding-bottom: max(14px, env(safe-area-inset-bottom));
+            background: var(--bg-card);
+            border-top: var(--border-width) solid var(--border-color);
+            padding: var(--space-md);
+            padding-bottom: max(var(--space-md), env(safe-area-inset-bottom));
             display: none;
             align-items: center;
-            gap: 14px;
+            gap: var(--space-md);
             z-index: 100;
         }
 
@@ -211,7 +298,7 @@
         }
 
         .player-title {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
@@ -220,201 +307,156 @@
 
         .player-lang {
             font-size: 0.75rem;
-            color: var(--text-dim);
+            color: var(--text-secondary);
         }
 
         .player-btn {
             width: 44px;
             height: 44px;
-            background: var(--accent);
-            border: none;
-            border-radius: 50%;
+            background: var(--brand-blue);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-size: 1.25rem;
             cursor: pointer;
-            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .player-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--duration-fast) var(--ease-smooth),
+                        box-shadow var(--duration-fast) var(--ease-smooth);
         }
 
         .player-btn:hover {
-            transform: scale(1.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .player-btn:active {
-            transform: scale(0.95);
+            transform: translateY(2px);
+            box-shadow: none;
         }
 
         .stop-btn {
-            width: 38px;
-            height: 38px;
-            background: transparent;
-            border: 2px solid var(--text-dim);
-            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            background: var(--bg-primary);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .stop-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: var(--text-dim);
+            transition: background var(--duration-fast) var(--ease-smooth);
         }
 
         .stop-btn:hover {
-            border-color: var(--danger);
+            background: var(--semantic-coral);
         }
 
-        .stop-btn:hover svg {
-            fill: var(--danger);
-        }
-
-        /* 无音频状态 */
-        .lang-btn.disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
-
-        .lang-btn.disabled:hover {
-            background: var(--bg);
-        }
-
-        .lang-btn.disabled:active {
-            transform: none;
-        }
-
-        /* 播放全部按钮 */
-        .play-all-btn {
-            width: 100%;
-            padding: 12px;
-            margin-top: 14px;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .play-all-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: white;
-        }
-
-        .play-all-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--accent-glow);
-        }
-
-        .play-all-btn:active {
-            transform: scale(0.98);
-        }
-
-        .play-all-btn.playing {
-            background: var(--danger);
-        }
-
-        /* 说明文字 */
+        /* ========== Help Text ========== */
         .help-text {
             text-align: center;
-            color: var(--text-dim);
+            color: var(--text-disabled);
             font-size: 0.75rem;
-            margin-top: 32px;
-            padding: 16px;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: var(--space-xl);
+            padding: var(--space-md);
+            border-top: 1px solid var(--border-color);
             line-height: 1.8;
         }
 
         .help-text code {
-            background: var(--card);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             padding: 2px 6px;
-            border-radius: 4px;
+            border-radius: var(--radius-sm);
             font-size: 0.7rem;
         }
+
+        /* ========== Theme Toggle ========== */
+        .theme-toggle {
+            position: fixed;
+            top: var(--space-md);
+            right: var(--space-md);
+            width: 40px;
+            height: 40px;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform var(--duration-fast) var(--ease-smooth);
+            z-index: 50;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(2px);
+        }
+
+        [data-theme="light"] .icon-sun { display: none; }
+        [data-theme="dark"] .icon-moon { display: none; }
     </style>
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <span class="icon-moon">☀️</span>
+        <span class="icon-sun">🌙</span>
+    </button>
+
     <header class="header">
-        <div class="header-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9v7c0 1.1.9 2 2 2h4v-8H5v-1a7 7 0 0 1 14 0v1h-4v8h4c1.1 0 2-.9 2-2v-7a9 9 0 0 0-9-9z"/></svg>
-        </div>
         <h1>机场广播</h1>
         <p>Airport Broadcast System</p>
     </header>
 
     <section class="broadcast-section">
-        <h2 class="section-title">
-            <svg viewBox="0 0 24 24"><path d="M17 6h-2V3a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3zm-7-2h4v2h-4V4zm7 15a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v9z"/></svg>
-            三超行李 Oversized Baggage
-        </h2>
+        <h2 class="section-title">三超行李 · Oversized Baggage</h2>
         <div class="broadcast-card" data-broadcast="oversized">
             <div class="broadcast-name">三超行李提醒</div>
             <div class="lang-buttons">
                 <button class="lang-btn" data-lang="zh">
-                    <span class="lang-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    </span>
+                    <span class="lang-icon">中</span>
                     <span class="lang-label">中文</span>
                 </button>
                 <button class="lang-btn" data-lang="en">
-                    <span class="lang-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
-                    </span>
+                    <span class="lang-icon">En</span>
                     <span class="lang-label">English</span>
                 </button>
                 <button class="lang-btn" data-lang="mn">
-                    <span class="lang-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-                    </span>
+                    <span class="lang-icon">閩</span>
                     <span class="lang-label">闽南语</span>
                 </button>
             </div>
             <button class="play-all-btn" data-action="play-all">
-                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <span class="icon">▶</span>
                 <span>连续播放 Play All</span>
             </button>
         </div>
     </section>
 
     <section class="broadcast-section">
-        <h2 class="section-title">
-            <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
-            登机广播 Boarding
-        </h2>
+        <h2 class="section-title">登机广播 · Boarding</h2>
         <div class="broadcast-card" data-broadcast="boarding">
             <div class="broadcast-name">登机广播</div>
             <div class="lang-buttons">
                 <button class="lang-btn disabled" data-lang="zh">
-                    <span class="lang-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    </span>
+                    <span class="lang-icon">中</span>
                     <span class="lang-label">中文</span>
                 </button>
                 <button class="lang-btn disabled" data-lang="en">
-                    <span class="lang-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
-                    </span>
+                    <span class="lang-icon">En</span>
                     <span class="lang-label">English</span>
                 </button>
                 <button class="lang-btn" data-lang="mn">
-                    <span class="lang-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-                    </span>
+                    <span class="lang-icon">閩</span>
                     <span class="lang-label">闽南语</span>
                 </button>
             </div>
@@ -426,18 +468,14 @@
         命名格式: <code>oversized-zh.mp3</code> <code>boarding-mn.mp3</code>
     </div>
 
-    <!-- 底部播放条 -->
+    <!-- Player Bar -->
     <div class="player-bar" id="playerBar">
         <div class="player-info">
             <div class="player-title" id="playerTitle">-</div>
             <div class="player-lang" id="playerLang">-</div>
         </div>
-        <button class="stop-btn" id="stopBtn">
-            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
-        </button>
-        <button class="player-btn" id="playPauseBtn">
-            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
+        <button class="stop-btn" id="stopBtn">■</button>
+        <button class="player-btn" id="playPauseBtn">⏸</button>
     </div>
 
     <audio id="audioPlayer"></audio>
@@ -462,16 +500,17 @@
                 }
             }
         };
-        // ========== 配置结束 ==========
 
         const langNames = { zh: '中文', en: 'English', mn: '闽南语' };
 
+        // Elements
         const audioPlayer = document.getElementById('audioPlayer');
         const playerBar = document.getElementById('playerBar');
         const playerTitle = document.getElementById('playerTitle');
         const playerLang = document.getElementById('playerLang');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const stopBtn = document.getElementById('stopBtn');
+        const themeToggle = document.getElementById('themeToggle');
 
         let currentBroadcast = null;
         let currentLang = null;
@@ -479,12 +518,27 @@
         let playQueue = [];
         let queueIndex = 0;
 
-        const playIcon = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-        const pauseIcon = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-        const stopIcon = '<svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>';
+        // Theme
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            if (saved) {
+                document.documentElement.dataset.theme = saved;
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.dataset.theme = 'dark';
+            }
+        }
 
-        // 初始化
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.dataset.theme;
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.dataset.theme = next;
+            localStorage.setItem('theme', next);
+        });
+
+        // Init
         function init() {
+            initTheme();
+            
             document.querySelectorAll('.broadcast-card').forEach(card => {
                 const broadcastId = card.dataset.broadcast;
                 const broadcast = broadcasts[broadcastId];
@@ -507,7 +561,7 @@
             });
         }
 
-        // 绑定事件
+        // Events
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (btn.classList.contains('disabled')) return;
@@ -535,19 +589,10 @@
         stopBtn.addEventListener('click', stopPlay);
 
         audioPlayer.addEventListener('ended', onAudioEnded);
-        audioPlayer.addEventListener('play', () => {
-            isPlaying = true;
-            updateUI();
-        });
-        audioPlayer.addEventListener('pause', () => {
-            isPlaying = false;
-            updateUI();
-        });
+        audioPlayer.addEventListener('play', () => { isPlaying = true; updateUI(); });
+        audioPlayer.addEventListener('pause', () => { isPlaying = false; updateUI(); });
         audioPlayer.addEventListener('error', () => {
-            if (playQueue.length > 0) {
-                queueIndex++;
-                playFromQueue();
-            }
+            if (playQueue.length > 0) { queueIndex++; playFromQueue(); }
         });
 
         function playBroadcast(broadcastId, lang) {
@@ -586,10 +631,10 @@
             
             document.querySelectorAll('.play-all-btn').forEach(b => {
                 b.classList.remove('playing');
-                b.innerHTML = playIcon + '<span>连续播放 Play All</span>';
+                b.innerHTML = '<span class="icon">▶</span><span>连续播放 Play All</span>';
             });
             btn.classList.add('playing');
-            btn.innerHTML = stopIcon + '<span>停止 Stop</span>';
+            btn.innerHTML = '<span class="icon">■</span><span>停止 Stop</span>';
 
             playFromQueue();
         }
@@ -648,19 +693,17 @@
         function resetPlayAllButtons() {
             document.querySelectorAll('.play-all-btn').forEach(btn => {
                 btn.classList.remove('playing');
-                btn.innerHTML = playIcon + '<span>连续播放 Play All</span>';
+                btn.innerHTML = '<span class="icon">▶</span><span>连续播放 Play All</span>';
             });
         }
 
         function updateUI() {
-            playPauseBtn.innerHTML = isPlaying ? pauseIcon : playIcon;
+            playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
             updateActiveButton();
         }
 
         function updateActiveButton() {
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('playing');
-            });
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('playing'));
 
             if (currentBroadcast && currentLang && isPlaying) {
                 const card = document.querySelector(`[data-broadcast="${currentBroadcast}"]`);
