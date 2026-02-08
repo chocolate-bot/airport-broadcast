@@ -1,173 +1,582 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦆 机场广播系统 | Airport Broadcast System</title>
-    <meta name="description" content="机场广播管理系统 - 支持中英闽三语广播 - Duck UI Design">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>机场广播 | Airport Broadcast</title>
+    <meta name="description" content="机场广播播放系统">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --card-hover: #334155;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 20px;
+            padding-bottom: 120px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0 30px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .broadcast-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            margin-bottom: 16px;
+            padding-left: 4px;
+        }
+
+        .broadcast-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+
+        .broadcast-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .lang-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            flex: 1;
+            min-width: 90px;
+            padding: 16px 12px;
+            background: var(--bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lang-btn:hover {
+            background: var(--card-hover);
+        }
+
+        .lang-btn:active {
+            transform: scale(0.96);
+        }
+
+        .lang-btn.playing {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .lang-btn.playing .lang-icon {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .lang-icon {
+            font-size: 1.5rem;
+        }
+
+        .lang-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .lang-btn.playing .lang-label {
+            color: var(--accent);
+        }
+
+        /* 底部播放条 */
+        .player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 20px;
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+            display: none;
+            align-items: center;
+            gap: 16px;
+            z-index: 100;
+        }
+
+        .player-bar.active {
+            display: flex;
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-lang {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .player-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .player-btn:active {
+            transform: scale(0.95);
+        }
+
+        .stop-btn {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--text-dim);
+            border-radius: 50%;
+            font-size: 1rem;
+            color: var(--text-dim);
+            cursor: pointer;
+        }
+
+        .stop-btn:hover {
+            border-color: var(--text);
+            color: var(--text);
+        }
+
+        /* 无音频提示 */
+        .lang-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .lang-btn.disabled:hover {
+            background: var(--bg);
+        }
+
+        .lang-btn.disabled:active {
+            transform: none;
+        }
+
+        /* 播放全部按钮 */
+        .play-all-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .play-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .play-all-btn:active {
+            transform: scale(0.98);
+        }
+
+        .play-all-btn.playing {
+            background: var(--success);
+        }
+
+        /* 说明文字 */
+        .help-text {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .help-text code {
+            background: var(--card);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- 移动端菜单按钮 -->
-        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        
-        <!-- 侧边栏遮罩 -->
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        
-        <!-- 侧边栏 -->
-        <aside class="sidebar" id="sidebar">
-            <div class="logo">
-                <h1>广播系统</h1>
-                <span class="logo-subtitle">Airport Broadcast</span>
-            </div>
-            
-            <nav class="category-nav">
-                <h3 class="nav-title">广播分类 Categories</h3>
-                <ul class="category-list" id="categoryList">
-                    <li class="category-item active" data-category="oversized">
-                        <span class="category-icon">🧳</span>
-                        <span class="category-name">三超行李<br><small>Oversized Baggage</small></span>
-                    </li>
-                    <li class="category-item" data-category="boarding">
-                        <span class="category-icon">✈️</span>
-                        <span class="category-name">登机广播<br><small>Boarding</small></span>
-                    </li>
-                </ul>
-            </nav>
-            
-            <div class="sidebar-footer">
-                <button class="btn-upload" id="uploadBtn">
-                    <span class="btn-icon">➕</span>
-                    添加广播 Add Broadcast
+    <header class="header">
+        <h1>📢 机场广播</h1>
+        <p>Airport Broadcast System</p>
+    </header>
+
+    <section class="broadcast-section">
+        <h2 class="section-title">🧳 三超行李 Oversized Baggage</h2>
+        <div class="broadcast-card" data-broadcast="oversized">
+            <div class="broadcast-name">三超行李提醒</div>
+            <div class="lang-buttons">
+                <button class="lang-btn" data-lang="zh">
+                    <span class="lang-icon">🇨🇳</span>
+                    <span class="lang-label">中文</span>
+                </button>
+                <button class="lang-btn" data-lang="en">
+                    <span class="lang-icon">🇬🇧</span>
+                    <span class="lang-label">English</span>
+                </button>
+                <button class="lang-btn" data-lang="mn">
+                    <span class="lang-icon">🏠</span>
+                    <span class="lang-label">闽南语</span>
                 </button>
             </div>
-        </aside>
-
-        <!-- 主内容区 -->
-        <main class="main-content">
-            <!-- 顶部工具栏 -->
-            <header class="top-bar">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="icon-moon">🌙</span>
-                    <span class="icon-sun">☀️</span>
-                </button>
-            </header>
-
-            <!-- 当前播放区 -->
-            <section class="now-playing" id="nowPlaying">
-                <div class="now-playing-bg"></div>
-                <div class="now-playing-content">
-                    <div class="now-playing-info">
-                        <span class="now-playing-label">正在播放 Now Playing</span>
-                        <h2 class="now-playing-title" id="currentTitle">请选择广播</h2>
-                        <p class="now-playing-meta" id="currentMeta">Select a broadcast to play</p>
-                    </div>
-                    <div class="player-controls">
-                        <div class="waveform" id="waveform">
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                        </div>
-                        <div class="progress-container">
-                            <span class="time-current" id="timeCurrent">0:00</span>
-                            <div class="progress-bar" id="progressBar">
-                                <div class="progress-fill" id="progressFill"></div>
-                            </div>
-                            <span class="time-total" id="timeTotal">0:00</span>
-                        </div>
-                        <div class="control-buttons">
-                            <button class="ctrl-btn" id="prevBtn">⏮️</button>
-                            <button class="ctrl-btn play-btn" id="playBtn">▶️</button>
-                            <button class="ctrl-btn" id="nextBtn">⏭️</button>
-                            <button class="ctrl-btn volume-btn" id="volumeBtn">🔊</button>
-                            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 广播列表 -->
-            <section class="broadcast-list-section">
-                <div class="list-header">
-                    <h3 id="listTitle">三超行李 Oversized Baggage</h3>
-                </div>
-                <div class="broadcast-grid" id="broadcastGrid">
-                    <!-- 广播卡片会在这里动态生成 -->
-                </div>
-                <div class="empty-state" id="emptyState" style="display: none;">
-                    <div class="empty-icon">📭</div>
-                    <h3>暂无广播</h3>
-                    <p>No broadcasts yet.</p>
-                </div>
-            </section>
-                    <p>No broadcasts yet. Click "Add Broadcast" to get started.</p>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- 上传弹窗 -->
-    <div class="modal-overlay" id="uploadModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2>添加广播 Add Broadcast</h2>
-                <button class="modal-close" id="closeModal">✕</button>
-            </div>
-            <form class="upload-form" id="uploadForm">
-                <div class="form-group">
-                    <label>广播名称 Broadcast Name</label>
-                    <input type="text" id="broadcastName" placeholder="例如：CA123 登机广播" required>
-                </div>
-                <div class="form-group">
-                    <label>分类 Category</label>
-                    <select id="broadcastCategory" required>
-                        <option value="oversized">三超行李 Oversized Baggage</option>
-                        <option value="boarding">登机广播 Boarding</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>语言版本 Language Versions</label>
-                    <div class="audio-uploads">
-                        <div class="audio-upload-item">
-                            <span class="lang-label">🇨🇳 中文</span>
-                            <input type="file" id="audioZh" accept="audio/*" class="file-input">
-                            <label for="audioZh" class="file-label">选择文件 Choose file</label>
-                            <span class="file-name" id="fileNameZh">未选择</span>
-                        </div>
-                        <div class="audio-upload-item">
-                            <span class="lang-label">🇬🇧 English</span>
-                            <input type="file" id="audioEn" accept="audio/*" class="file-input">
-                            <label for="audioEn" class="file-label">选择文件 Choose file</label>
-                            <span class="file-name" id="fileNameEn">未选择</span>
-                        </div>
-                        <div class="audio-upload-item">
-                            <span class="lang-label">🏠 闽南语</span>
-                            <input type="file" id="audioMn" accept="audio/*" class="file-input">
-                            <label for="audioMn" class="file-label">选择文件 Choose file</label>
-                            <span class="file-name" id="fileNameMn">未选择</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-cancel" id="cancelUpload">取消 Cancel</button>
-                    <button type="submit" class="btn-submit">添加 Add</button>
-                </div>
-            </form>
+            <button class="play-all-btn" data-action="play-all">
+                ▶️ 连续播放 Play All
+            </button>
         </div>
+    </section>
+
+    <section class="broadcast-section">
+        <h2 class="section-title">✈️ 登机广播 Boarding</h2>
+        <div class="broadcast-card" data-broadcast="boarding">
+            <div class="broadcast-name">登机广播</div>
+            <div class="lang-buttons">
+                <button class="lang-btn disabled" data-lang="zh">
+                    <span class="lang-icon">🇨🇳</span>
+                    <span class="lang-label">中文</span>
+                </button>
+                <button class="lang-btn disabled" data-lang="en">
+                    <span class="lang-icon">🇬🇧</span>
+                    <span class="lang-label">English</span>
+                </button>
+                <button class="lang-btn" data-lang="mn">
+                    <span class="lang-icon">🏠</span>
+                    <span class="lang-label">闽南语</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div class="help-text">
+        💡 将音频文件放入 <code>audio/</code> 文件夹<br>
+        命名格式: <code>oversized-zh.mp3</code> <code>boarding-mn.mp3</code>
     </div>
 
-    <!-- 隐藏的音频播放器 -->
+    <!-- 底部播放条 -->
+    <div class="player-bar" id="playerBar">
+        <div class="player-info">
+            <div class="player-title" id="playerTitle">-</div>
+            <div class="player-lang" id="playerLang">-</div>
+        </div>
+        <button class="stop-btn" id="stopBtn">⏹️</button>
+        <button class="player-btn" id="playPauseBtn">⏸️</button>
+    </div>
+
     <audio id="audioPlayer"></audio>
 
-    <script src="app.js"></script>
+    <script>
+        // ========== 配置区 ==========
+        // 在这里配置音频文件路径，null 表示暂无音频
+        const broadcasts = {
+            oversized: {
+                name: '三超行李提醒',
+                audio: {
+                    zh: 'audio/oversized-zh.mp3',
+                    en: 'audio/oversized-en.mp3',
+                    mn: 'audio/oversized-mn.mp3'
+                }
+            },
+            boarding: {
+                name: '登机广播',
+                audio: {
+                    zh: null,
+                    en: null,
+                    mn: 'audio/boarding-mn.mp3'
+                }
+            }
+        };
+        // ========== 配置结束 ==========
+
+        const langNames = { zh: '中文', en: 'English', mn: '闽南语' };
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playerBar = document.getElementById('playerBar');
+        const playerTitle = document.getElementById('playerTitle');
+        const playerLang = document.getElementById('playerLang');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+
+        let currentBroadcast = null;
+        let currentLang = null;
+        let isPlaying = false;
+        let playQueue = [];
+        let queueIndex = 0;
+
+        // 初始化 - 根据配置更新按钮状态
+        function init() {
+            document.querySelectorAll('.broadcast-card').forEach(card => {
+                const broadcastId = card.dataset.broadcast;
+                const broadcast = broadcasts[broadcastId];
+                if (!broadcast) return;
+
+                card.querySelectorAll('.lang-btn').forEach(btn => {
+                    const lang = btn.dataset.lang;
+                    if (!broadcast.audio[lang]) {
+                        btn.classList.add('disabled');
+                    } else {
+                        btn.classList.remove('disabled');
+                    }
+                });
+
+                // 检查是否需要显示"播放全部"按钮
+                const availableCount = Object.values(broadcast.audio).filter(v => v).length;
+                const playAllBtn = card.querySelector('.play-all-btn');
+                if (playAllBtn && availableCount < 2) {
+                    playAllBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // 绑定事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('disabled')) return;
+                const card = btn.closest('.broadcast-card');
+                const broadcastId = card.dataset.broadcast;
+                const lang = btn.dataset.lang;
+                playBroadcast(broadcastId, lang);
+            });
+        });
+
+        document.querySelectorAll('.play-all-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.broadcast-card');
+                const broadcastId = card.dataset.broadcast;
+                
+                if (btn.classList.contains('playing')) {
+                    stopPlay();
+                } else {
+                    playAllLanguages(broadcastId, btn);
+                }
+            });
+        });
+
+        playPauseBtn.addEventListener('click', togglePlay);
+        stopBtn.addEventListener('click', stopPlay);
+
+        audioPlayer.addEventListener('ended', onAudioEnded);
+        audioPlayer.addEventListener('play', () => {
+            isPlaying = true;
+            updateUI();
+        });
+        audioPlayer.addEventListener('pause', () => {
+            isPlaying = false;
+            updateUI();
+        });
+        audioPlayer.addEventListener('error', () => {
+            console.error('Audio load error');
+            if (playQueue.length > 0) {
+                queueIndex++;
+                playFromQueue();
+            }
+        });
+
+        function playBroadcast(broadcastId, lang) {
+            const broadcast = broadcasts[broadcastId];
+            if (!broadcast || !broadcast.audio[lang]) return;
+
+            currentBroadcast = broadcastId;
+            currentLang = lang;
+            playQueue = [];
+            queueIndex = 0;
+
+            audioPlayer.src = broadcast.audio[lang];
+            audioPlayer.play().catch(e => console.log('Play error:', e));
+
+            playerTitle.textContent = broadcast.name;
+            playerLang.textContent = langNames[lang];
+            playerBar.classList.add('active');
+            updateActiveButton();
+        }
+
+        function playAllLanguages(broadcastId, btn) {
+            const broadcast = broadcasts[broadcastId];
+            if (!broadcast) return;
+
+            // 构建播放队列
+            playQueue = [];
+            ['zh', 'en', 'mn'].forEach(lang => {
+                if (broadcast.audio[lang]) {
+                    playQueue.push({ broadcastId, lang });
+                }
+            });
+
+            if (playQueue.length === 0) return;
+
+            queueIndex = 0;
+            currentBroadcast = broadcastId;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.play-all-btn').forEach(b => {
+                b.classList.remove('playing');
+                b.textContent = '▶️ 连续播放 Play All';
+            });
+            btn.classList.add('playing');
+            btn.textContent = '⏹️ 停止 Stop';
+
+            playFromQueue();
+        }
+
+        function playFromQueue() {
+            if (queueIndex >= playQueue.length) {
+                resetPlayAllButtons();
+                stopPlay();
+                return;
+            }
+
+            const item = playQueue[queueIndex];
+            const broadcast = broadcasts[item.broadcastId];
+            
+            currentLang = item.lang;
+            audioPlayer.src = broadcast.audio[item.lang];
+            audioPlayer.play().catch(e => console.log('Play error:', e));
+
+            playerTitle.textContent = broadcast.name;
+            playerLang.textContent = `${langNames[item.lang]} (${queueIndex + 1}/${playQueue.length})`;
+            playerBar.classList.add('active');
+            updateActiveButton();
+        }
+
+        function onAudioEnded() {
+            if (playQueue.length > 0 && queueIndex < playQueue.length - 1) {
+                queueIndex++;
+                playFromQueue();
+            } else {
+                resetPlayAllButtons();
+                // 保持播放条显示，但停止
+                isPlaying = false;
+                updateUI();
+            }
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                audioPlayer.pause();
+            } else {
+                audioPlayer.play().catch(e => console.log('Play error:', e));
+            }
+        }
+
+        function stopPlay() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            playQueue = [];
+            queueIndex = 0;
+            isPlaying = false;
+            playerBar.classList.remove('active');
+            resetPlayAllButtons();
+            updateActiveButton();
+        }
+
+        function resetPlayAllButtons() {
+            document.querySelectorAll('.play-all-btn').forEach(btn => {
+                btn.classList.remove('playing');
+                btn.textContent = '▶️ 连续播放 Play All';
+            });
+        }
+
+        function updateUI() {
+            playPauseBtn.textContent = isPlaying ? '⏸️' : '▶️';
+            updateActiveButton();
+        }
+
+        function updateActiveButton() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('playing');
+            });
+
+            if (currentBroadcast && currentLang && isPlaying) {
+                const card = document.querySelector(`[data-broadcast="${currentBroadcast}"]`);
+                if (card) {
+                    const btn = card.querySelector(`[data-lang="${currentLang}"]`);
+                    if (btn) {
+                        btn.classList.add('playing');
+                    }
+                }
+            }
+        }
+
+        // 初始化
+        init();
+    </script>
 </body>
 </html>
