@@ -27,6 +27,9 @@ const timeCurrent = document.getElementById('timeCurrent');
 const timeTotal = document.getElementById('timeTotal');
 const playBtn = document.getElementById('playBtn');
 const volumeSlider = document.getElementById('volumeSlider');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
 
 // Category mappings
 const categoryNames = {
@@ -118,6 +121,10 @@ function loadFromStorage() {
 
 // ========== Event Bindings ==========
 function bindEvents() {
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', closeSidebar);
+    
     // Upload modal
     document.getElementById('uploadBtn').addEventListener('click', () => {
         uploadModal.classList.add('active');
@@ -151,6 +158,7 @@ function bindEvents() {
             document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
             item.classList.add('active');
             currentCategory = item.dataset.category;
+            closeSidebar(); // Close sidebar on mobile after selection
             updateListTitle();
             renderBroadcasts();
         }
@@ -219,6 +227,17 @@ function bindEvents() {
             }
         });
     });
+}
+
+// ========== Sidebar Mobile ==========
+function toggleSidebar() {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+}
+
+function closeSidebar() {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
 }
 
 // ========== Modal ==========
