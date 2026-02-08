@@ -552,6 +552,7 @@
         let selectedLangs = [];  // 选中的语言列表
         let currentPlayIndex = 0;
         let isPlaying = false;
+        let isStopping = false;  // 防止停止时触发错误处理
 
         // Theme
         function initTheme() {
@@ -698,8 +699,12 @@
         });
 
         audioPlayer.addEventListener('error', () => {
-            currentPlayIndex++;
-            if (currentPlayIndex < selectedLangs.length) {
+            // 停止中或未播放时忽略错误
+            if (isStopping || !isPlaying) return;
+            
+            // 只有在正在播放队列时才继续下一个
+            if (currentPlayIndex < selectedLangs.length - 1) {
+                currentPlayIndex++;
                 playCurrentFromQueue();
             }
         });
@@ -727,6 +732,7 @@
         }
 
         function stopPlay() {
+            isStopping = true;
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
             audioPlayer.src = '';
@@ -734,6 +740,8 @@
             currentPlayIndex = 0;
             updatePlayButton();
             clearPlayingState();
+            // 延迟重置标志位
+            setTimeout(() => { isStopping = false; }, 100);
         }
 
         function clearAllSelections() {
