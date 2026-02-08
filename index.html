@@ -18,6 +18,7 @@
             --text: #f1f5f9;
             --text-dim: #94a3b8;
             --success: #10b981;
+            --danger: #ef4444;
             --radius: 16px;
         }
 
@@ -43,8 +44,25 @@
             padding: 20px 0 30px;
         }
 
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
         .header h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 4px;
         }
@@ -55,27 +73,36 @@
         }
 
         .broadcast-section {
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .section-title {
-            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             color: var(--accent);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             padding-left: 4px;
+        }
+
+        .section-title svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
 
         .broadcast-card {
             background: var(--card);
             border-radius: var(--radius);
             padding: 20px;
-            margin-bottom: 12px;
         }
 
         .broadcast-name {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             margin-bottom: 16px;
         }
@@ -89,19 +116,19 @@
         .lang-btn {
             flex: 1;
             min-width: 90px;
-            padding: 16px 12px;
+            padding: 14px 12px;
             background: var(--bg);
             border: 2px solid transparent;
             border-radius: 12px;
             color: var(--text);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .lang-btn:hover {
@@ -121,13 +148,32 @@
             animation: pulse 1s ease-in-out infinite;
         }
 
+        .lang-btn.playing .lang-icon svg {
+            fill: var(--accent);
+        }
+
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.15); }
         }
 
         .lang-icon {
-            font-size: 1.5rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--text-dim);
+            transition: fill 0.2s ease;
+        }
+
+        .lang-btn:hover .lang-icon svg {
+            fill: var(--text);
         }
 
         .lang-label {
@@ -147,11 +193,11 @@
             right: 0;
             background: var(--card);
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 16px 20px;
-            padding-bottom: max(16px, env(safe-area-inset-bottom));
+            padding: 14px 20px;
+            padding-bottom: max(14px, env(safe-area-inset-bottom));
             display: none;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             z-index: 100;
         }
 
@@ -178,17 +224,22 @@
         }
 
         .player-btn {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: var(--accent);
             border: none;
             border-radius: 50%;
-            font-size: 1.3rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .player-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
         }
 
         .player-btn:hover {
@@ -200,24 +251,35 @@
         }
 
         .stop-btn {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             background: transparent;
             border: 2px solid var(--text-dim);
             border-radius: 50%;
-            font-size: 1rem;
-            color: var(--text-dim);
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .stop-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--text-dim);
         }
 
         .stop-btn:hover {
-            border-color: var(--text);
-            color: var(--text);
+            border-color: var(--danger);
         }
 
-        /* 无音频提示 */
+        .stop-btn:hover svg {
+            fill: var(--danger);
+        }
+
+        /* 无音频状态 */
         .lang-btn.disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
         }
 
@@ -232,16 +294,26 @@
         /* 播放全部按钮 */
         .play-all-btn {
             width: 100%;
-            padding: 14px;
-            margin-top: 12px;
+            padding: 12px;
+            margin-top: 14px;
             background: linear-gradient(135deg, var(--accent), #8b5cf6);
             border: none;
             border-radius: 12px;
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .play-all-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
         }
 
         .play-all-btn:hover {
@@ -254,72 +326,95 @@
         }
 
         .play-all-btn.playing {
-            background: var(--success);
+            background: var(--danger);
         }
 
         /* 说明文字 */
         .help-text {
             text-align: center;
             color: var(--text-dim);
-            font-size: 0.8rem;
-            margin-top: 40px;
-            padding: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.75rem;
+            margin-top: 32px;
+            padding: 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            line-height: 1.8;
         }
 
         .help-text code {
             background: var(--card);
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <h1>📢 机场广播</h1>
+        <div class="header-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9v7c0 1.1.9 2 2 2h4v-8H5v-1a7 7 0 0 1 14 0v1h-4v8h4c1.1 0 2-.9 2-2v-7a9 9 0 0 0-9-9z"/></svg>
+        </div>
+        <h1>机场广播</h1>
         <p>Airport Broadcast System</p>
     </header>
 
     <section class="broadcast-section">
-        <h2 class="section-title">🧳 三超行李 Oversized Baggage</h2>
+        <h2 class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M17 6h-2V3a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3zm-7-2h4v2h-4V4zm7 15a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v9z"/></svg>
+            三超行李 Oversized Baggage
+        </h2>
         <div class="broadcast-card" data-broadcast="oversized">
             <div class="broadcast-name">三超行李提醒</div>
             <div class="lang-buttons">
                 <button class="lang-btn" data-lang="zh">
-                    <span class="lang-icon">🇨🇳</span>
+                    <span class="lang-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </span>
                     <span class="lang-label">中文</span>
                 </button>
                 <button class="lang-btn" data-lang="en">
-                    <span class="lang-icon">🇬🇧</span>
+                    <span class="lang-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+                    </span>
                     <span class="lang-label">English</span>
                 </button>
                 <button class="lang-btn" data-lang="mn">
-                    <span class="lang-icon">🏠</span>
+                    <span class="lang-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+                    </span>
                     <span class="lang-label">闽南语</span>
                 </button>
             </div>
             <button class="play-all-btn" data-action="play-all">
-                ▶️ 连续播放 Play All
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <span>连续播放 Play All</span>
             </button>
         </div>
     </section>
 
     <section class="broadcast-section">
-        <h2 class="section-title">✈️ 登机广播 Boarding</h2>
+        <h2 class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            登机广播 Boarding
+        </h2>
         <div class="broadcast-card" data-broadcast="boarding">
             <div class="broadcast-name">登机广播</div>
             <div class="lang-buttons">
                 <button class="lang-btn disabled" data-lang="zh">
-                    <span class="lang-icon">🇨🇳</span>
+                    <span class="lang-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </span>
                     <span class="lang-label">中文</span>
                 </button>
                 <button class="lang-btn disabled" data-lang="en">
-                    <span class="lang-icon">🇬🇧</span>
+                    <span class="lang-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+                    </span>
                     <span class="lang-label">English</span>
                 </button>
                 <button class="lang-btn" data-lang="mn">
-                    <span class="lang-icon">🏠</span>
+                    <span class="lang-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+                    </span>
                     <span class="lang-label">闽南语</span>
                 </button>
             </div>
@@ -327,7 +422,7 @@
     </section>
 
     <div class="help-text">
-        💡 将音频文件放入 <code>audio/</code> 文件夹<br>
+        将音频文件放入 <code>audio/</code> 文件夹<br>
         命名格式: <code>oversized-zh.mp3</code> <code>boarding-mn.mp3</code>
     </div>
 
@@ -337,15 +432,18 @@
             <div class="player-title" id="playerTitle">-</div>
             <div class="player-lang" id="playerLang">-</div>
         </div>
-        <button class="stop-btn" id="stopBtn">⏹️</button>
-        <button class="player-btn" id="playPauseBtn">⏸️</button>
+        <button class="stop-btn" id="stopBtn">
+            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+        </button>
+        <button class="player-btn" id="playPauseBtn">
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
     </div>
 
     <audio id="audioPlayer"></audio>
 
     <script>
         // ========== 配置区 ==========
-        // 在这里配置音频文件路径，null 表示暂无音频
         const broadcasts = {
             oversized: {
                 name: '三超行李提醒',
@@ -381,7 +479,11 @@
         let playQueue = [];
         let queueIndex = 0;
 
-        // 初始化 - 根据配置更新按钮状态
+        const playIcon = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+        const pauseIcon = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+        const stopIcon = '<svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>';
+
+        // 初始化
         function init() {
             document.querySelectorAll('.broadcast-card').forEach(card => {
                 const broadcastId = card.dataset.broadcast;
@@ -397,7 +499,6 @@
                     }
                 });
 
-                // 检查是否需要显示"播放全部"按钮
                 const availableCount = Object.values(broadcast.audio).filter(v => v).length;
                 const playAllBtn = card.querySelector('.play-all-btn');
                 if (playAllBtn && availableCount < 2) {
@@ -443,7 +544,6 @@
             updateUI();
         });
         audioPlayer.addEventListener('error', () => {
-            console.error('Audio load error');
             if (playQueue.length > 0) {
                 queueIndex++;
                 playFromQueue();
@@ -472,7 +572,6 @@
             const broadcast = broadcasts[broadcastId];
             if (!broadcast) return;
 
-            // 构建播放队列
             playQueue = [];
             ['zh', 'en', 'mn'].forEach(lang => {
                 if (broadcast.audio[lang]) {
@@ -485,13 +584,12 @@
             queueIndex = 0;
             currentBroadcast = broadcastId;
             
-            // 更新按钮状态
             document.querySelectorAll('.play-all-btn').forEach(b => {
                 b.classList.remove('playing');
-                b.textContent = '▶️ 连续播放 Play All';
+                b.innerHTML = playIcon + '<span>连续播放 Play All</span>';
             });
             btn.classList.add('playing');
-            btn.textContent = '⏹️ 停止 Stop';
+            btn.innerHTML = stopIcon + '<span>停止 Stop</span>';
 
             playFromQueue();
         }
@@ -499,7 +597,8 @@
         function playFromQueue() {
             if (queueIndex >= playQueue.length) {
                 resetPlayAllButtons();
-                stopPlay();
+                isPlaying = false;
+                updateUI();
                 return;
             }
 
@@ -522,7 +621,6 @@
                 playFromQueue();
             } else {
                 resetPlayAllButtons();
-                // 保持播放条显示，但停止
                 isPlaying = false;
                 updateUI();
             }
@@ -550,12 +648,12 @@
         function resetPlayAllButtons() {
             document.querySelectorAll('.play-all-btn').forEach(btn => {
                 btn.classList.remove('playing');
-                btn.textContent = '▶️ 连续播放 Play All';
+                btn.innerHTML = playIcon + '<span>连续播放 Play All</span>';
             });
         }
 
         function updateUI() {
-            playPauseBtn.textContent = isPlaying ? '⏸️' : '▶️';
+            playPauseBtn.innerHTML = isPlaying ? pauseIcon : playIcon;
             updateActiveButton();
         }
 
@@ -568,14 +666,11 @@
                 const card = document.querySelector(`[data-broadcast="${currentBroadcast}"]`);
                 if (card) {
                     const btn = card.querySelector(`[data-lang="${currentLang}"]`);
-                    if (btn) {
-                        btn.classList.add('playing');
-                    }
+                    if (btn) btn.classList.add('playing');
                 }
             }
         }
 
-        // 初始化
         init();
     </script>
 </body>
