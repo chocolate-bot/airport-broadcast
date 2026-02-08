@@ -614,6 +614,11 @@
                 if (btn.classList.contains('selected')) {
                     btn.classList.remove('selected');
                     selectedLangs = selectedLangs.filter(l => l !== lang);
+                    
+                    // 如果没有选中任何语言，重置广播选择
+                    if (selectedLangs.length === 0) {
+                        selectedBroadcast = null;
+                    }
                 } else {
                     btn.classList.add('selected');
                     selectedLangs.push(lang);
