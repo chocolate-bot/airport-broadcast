@@ -53,10 +53,11 @@ function init() {
     renderBroadcasts();
     updateCounts();
     bindEvents();
-    
+    initTheme();
+
     // Set initial volume
     audioPlayer.volume = volumeSlider.value / 100;
-    
+
     // Add demo data if empty
     if (broadcasts.length === 0) {
         addDemoData();
@@ -584,6 +585,30 @@ function updateCounts() {
 function updateListTitle() {
     const title = categoryNames[currentCategory];
     document.getElementById('listTitle').textContent = `${title.zh} ${title.en}`;
+}
+
+// ========== Theme Toggle ==========
+function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
+    // Check for saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const theme = savedTheme || (systemDark ? 'dark' : 'light');
+    setTheme(theme);
+
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+    });
+}
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
 }
 
 // ========== Start ==========
