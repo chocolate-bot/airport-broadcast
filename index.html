@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机场广播系统 | Airport Broadcast System</title>
+    <meta name="description" content="机场广播管理系统 - 支持中英闽三语广播">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">📢</div>
+                <h1>广播系统</h1>
+                <span class="logo-subtitle">Broadcast System</span>
+            </div>
+            
+            <nav class="category-nav">
+                <h3 class="nav-title">广播分类 Categories</h3>
+                <ul class="category-list" id="categoryList">
+                    <li class="category-item active" data-category="all">
+                        <span class="category-icon">📻</span>
+                        <span class="category-name">全部广播<br><small>All Broadcasts</small></span>
+                        <span class="category-count" id="count-all">0</span>
+                    </li>
+                    <li class="category-item" data-category="boarding">
+                        <span class="category-icon">✈️</span>
+                        <span class="category-name">登机广播<br><small>Boarding</small></span>
+                        <span class="category-count" id="count-boarding">0</span>
+                    </li>
+                    <li class="category-item" data-category="oversized">
+                        <span class="category-icon">🧳</span>
+                        <span class="category-name">三超行李<br><small>Oversized Baggage</small></span>
+                        <span class="category-count" id="count-oversized">0</span>
+                    </li>
+                    <li class="category-item" data-category="delay">
+                        <span class="category-icon">⏰</span>
+                        <span class="category-name">延误通知<br><small>Delay Notice</small></span>
+                        <span class="category-count" id="count-delay">0</span>
+                    </li>
+                    <li class="category-item" data-category="security">
+                        <span class="category-icon">🛡️</span>
+                        <span class="category-name">安检提醒<br><small>Security Check</small></span>
+                        <span class="category-count" id="count-security">0</span>
+                    </li>
+                    <li class="category-item" data-category="general">
+                        <span class="category-icon">📣</span>
+                        <span class="category-name">通用广播<br><small>General</small></span>
+                        <span class="category-count" id="count-general">0</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="btn-upload" id="uploadBtn">
+                    <span class="btn-icon">➕</span>
+                    添加广播 Add Broadcast
+                </button>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部工具栏 -->
+            <header class="top-bar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="搜索广播... Search broadcasts...">
+                </div>
+                <div class="language-filter">
+                    <span class="filter-label">语言 Language:</span>
+                    <div class="lang-btns">
+                        <button class="lang-btn active" data-lang="all">全部 All</button>
+                        <button class="lang-btn" data-lang="zh">中文</button>
+                        <button class="lang-btn" data-lang="en">English</button>
+                        <button class="lang-btn" data-lang="mn">闽南语</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 当前播放区 -->
+            <section class="now-playing" id="nowPlaying">
+                <div class="now-playing-bg"></div>
+                <div class="now-playing-content">
+                    <div class="now-playing-info">
+                        <span class="now-playing-label">正在播放 Now Playing</span>
+                        <h2 class="now-playing-title" id="currentTitle">请选择广播</h2>
+                        <p class="now-playing-meta" id="currentMeta">Select a broadcast to play</p>
+                    </div>
+                    <div class="player-controls">
+                        <div class="waveform" id="waveform">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                        <div class="progress-container">
+                            <span class="time-current" id="timeCurrent">0:00</span>
+                            <div class="progress-bar" id="progressBar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <span class="time-total" id="timeTotal">0:00</span>
+                        </div>
+                        <div class="control-buttons">
+                            <button class="ctrl-btn" id="prevBtn">⏮️</button>
+                            <button class="ctrl-btn play-btn" id="playBtn">▶️</button>
+                            <button class="ctrl-btn" id="nextBtn">⏭️</button>
+                            <button class="ctrl-btn volume-btn" id="volumeBtn">🔊</button>
+                            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 广播列表 -->
+            <section class="broadcast-list-section">
+                <div class="list-header">
+                    <h3 id="listTitle">全部广播 All Broadcasts</h3>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">▦</button>
+                        <button class="view-btn" data-view="list">☰</button>
+                    </div>
+                </div>
+                <div class="broadcast-grid" id="broadcastGrid">
+                    <!-- 广播卡片会在这里动态生成 -->
+                </div>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">📭</div>
+                    <h3>暂无广播</h3>
+                    <p>No broadcasts yet. Click "Add Broadcast" to get started.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 上传弹窗 -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>添加广播 Add Broadcast</h2>
+                <button class="modal-close" id="closeModal">✕</button>
+            </div>
+            <form class="upload-form" id="uploadForm">
+                <div class="form-group">
+                    <label>广播名称 Broadcast Name</label>
+                    <input type="text" id="broadcastName" placeholder="例如：CA123 登机广播" required>
+                </div>
+                <div class="form-group">
+                    <label>分类 Category</label>
+                    <select id="broadcastCategory" required>
+                        <option value="boarding">登机广播 Boarding</option>
+                        <option value="oversized">三超行李 Oversized Baggage</option>
+                        <option value="delay">延误通知 Delay Notice</option>
+                        <option value="security">安检提醒 Security Check</option>
+                        <option value="general">通用广播 General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>语言版本 Language Versions</label>
+                    <div class="audio-uploads">
+                        <div class="audio-upload-item">
+                            <span class="lang-label">🇨🇳 中文</span>
+                            <input type="file" id="audioZh" accept="audio/*" class="file-input">
+                            <label for="audioZh" class="file-label">选择文件 Choose file</label>
+                            <span class="file-name" id="fileNameZh">未选择</span>
+                        </div>
+                        <div class="audio-upload-item">
+                            <span class="lang-label">🇬🇧 English</span>
+                            <input type="file" id="audioEn" accept="audio/*" class="file-input">
+                            <label for="audioEn" class="file-label">选择文件 Choose file</label>
+                            <span class="file-name" id="fileNameEn">未选择</span>
+                        </div>
+                        <div class="audio-upload-item">
+                            <span class="lang-label">🏠 闽南语</span>
+                            <input type="file" id="audioMn" accept="audio/*" class="file-input">
+                            <label for="audioMn" class="file-label">选择文件 Choose file</label>
+                            <span class="file-name" id="fileNameMn">未选择</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelUpload">取消 Cancel</button>
+                    <button type="submit" class="btn-submit">添加 Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 隐藏的音频播放器 -->
+    <audio id="audioPlayer"></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
