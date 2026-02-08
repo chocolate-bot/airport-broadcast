@@ -629,27 +629,56 @@
             });
         });
 
-        // 全选按钮
+        // 全选按钮 - 切换全选/全不选
         document.querySelectorAll('.play-all-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const card = btn.closest('.broadcast-card');
                 const broadcastId = card.dataset.broadcast;
                 const broadcast = broadcasts[broadcastId];
-
-                // 先停止播放并清除所有状态
-                stopPlay();
-                document.querySelectorAll('.lang-btn').forEach(b => {
-                    b.classList.remove('selected', 'playing');
+                
+                // 获取该卡片中所有可用的语言按钮
+                const availableBtns = card.querySelectorAll('.lang-btn:not(.disabled)');
+                const selectedInCard = card.querySelectorAll('.lang-btn.selected:not(.disabled)');
+                
+                // 判断是否全部已选中
+                const allSelected = selectedInCard.length === availableBtns.length && availableBtns.length > 0;
+                
+                // 先清除其他卡片的选中状态
+                document.querySelectorAll('.broadcast-card').forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.querySelectorAll('.lang-btn').forEach(b => {
+                            b.classList.remove('selected', 'playing');
+                        });
+                    }
                 });
                 
-                selectedBroadcast = broadcastId;
-                selectedLangs = [];
-
-                // 选中所有可用语言
-                card.querySelectorAll('.lang-btn:not(.disabled)').forEach(langBtn => {
-                    langBtn.classList.add('selected');
-                    selectedLangs.push(langBtn.dataset.lang);
+                // 重置状态（不调用 stopPlay 避免触发 error 事件）
+                audioPlayer.pause();
+                isPlaying = false;
+                currentPlayIndex = 0;
+                updatePlayButton();
+                
+                // 清除 playing 状态
+                document.querySelectorAll('.lang-btn').forEach(b => {
+                    b.classList.remove('playing');
                 });
+                
+                if (allSelected) {
+                    // 全部已选 → 全部取消
+                    availableBtns.forEach(langBtn => {
+                        langBtn.classList.remove('selected');
+                    });
+                    selectedBroadcast = null;
+                    selectedLangs = [];
+                } else {
+                    // 有未选的 → 全选
+                    selectedBroadcast = broadcastId;
+                    selectedLangs = [];
+                    availableBtns.forEach(langBtn => {
+                        langBtn.classList.add('selected');
+                        selectedLangs.push(langBtn.dataset.lang);
+                    });
+                }
 
                 updatePlayerInfo();
             });
