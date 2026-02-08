@@ -160,7 +160,7 @@
             box-shadow: 1px 1px 0 0 var(--shadow-color);
         }
 
-        /* 选中状态 */
+        /* 选中状态 - 蓝色 */
         .lang-btn.selected {
             background: var(--brand-blue);
             border-color: var(--text-primary);
@@ -170,13 +170,13 @@
             color: var(--text-primary);
         }
 
-        /* 播放中状态 */
-        .lang-btn.playing {
+        /* 播放中状态 - 绿色，优先级更高 */
+        .lang-btn.selected.playing {
             background: var(--semantic-mint);
             border-color: var(--text-primary);
         }
 
-        .lang-btn.playing .lang-icon {
+        .lang-btn.selected.playing .lang-icon {
             animation: pulse 1.2s ease-in-out infinite;
         }
 
@@ -635,7 +635,12 @@
                 const broadcastId = card.dataset.broadcast;
                 const broadcast = broadcasts[broadcastId];
 
-                clearAllSelections();
+                // 先停止播放并清除所有状态
+                stopPlay();
+                document.querySelectorAll('.lang-btn').forEach(b => {
+                    b.classList.remove('selected', 'playing');
+                });
+                
                 selectedBroadcast = broadcastId;
                 selectedLangs = [];
 
