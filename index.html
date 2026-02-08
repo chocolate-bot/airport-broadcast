@@ -10,78 +10,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* ========== Duck UI Design System ========== */
-        /* 融合 Dieter Rams、原研哉、Jony Ive 的设计智慧 */
-        /* Neo-Brutalist: 诚实的硬阴影，粗边框，无装饰 */
-
         :root {
-            /* 品牌色 - Color with purpose */
-            --brand-blue: #7BCBFF;      /* 信任与开放 */
-            --brand-yellow: #FFE66A;    /* 温暖与重要 */
+            --brand-blue: #7BCBFF;
+            --brand-yellow: #FFE66A;
+            --semantic-mint: #6FD8C7;
+            --semantic-coral: #FF998F;
             
-            /* 语义色 */
-            --semantic-mint: #6FD8C7;   /* 成功与积极 */
-            --semantic-coral: #FF998F;  /* 警示与注意 */
+            --bg-primary: #F7F3EC;
+            --bg-secondary: #FBFAF8;
+            --bg-card: #FFFFFF;
             
-            /* Light Theme */
-            --bg-primary: #F7F3EC;      /* 奶油米白 */
-            --bg-secondary: #FBFAF8;    /* 近白次级 */
-            --bg-card: #FFFFFF;         /* 卡片纯白 */
+            --text-primary: #3F3F3F;
+            --text-secondary: #6A6A6A;
+            --text-disabled: #A0A0A0;
             
-            --text-primary: #3F3F3F;    /* 主文字 */
-            --text-secondary: #6A6A6A;  /* 次要文字 */
-            --text-disabled: #A0A0A0;   /* 禁用/提示 */
+            --border-color: #A8A8A8;
+            --shadow-color: #B5B5B5;
             
-            --border-color: #A8A8A8;    /* 主边框 */
-            --shadow-color: #B5B5B5;    /* 阴影颜色 */
-            
-            /* Neo-Brutalist 系统值 */
             --border-width: 2px;
             --radius-sm: 2px;
             --radius-md: 4px;
             --radius-lg: 8px;
             --radius-full: 9999px;
             
-            /* 硬阴影 - 诚实的深度表达 */
             --shadow-sm: 3px 3px 0 0 var(--shadow-color);
             --shadow-md: 5px 5px 0 0 var(--shadow-color);
             --shadow-lg: 7px 7px 0 0 var(--shadow-color);
             
-            /* 间距系统 (8pt grid) */
             --space-xs: 4px;
             --space-sm: 8px;
             --space-md: 16px;
             --space-lg: 24px;
             --space-xl: 32px;
-            --space-2xl: 48px;
             
-            /* 动画 */
             --duration-fast: 150ms;
-            --duration-normal: 200ms;
             --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Dark Theme */
         [data-theme="dark"] {
             --bg-primary: #1A1A1A;
             --bg-secondary: #2A2A2A;
             --bg-card: #242424;
-            
             --text-primary: #F8F8F7;
             --text-secondary: #CFCFCF;
             --text-disabled: #6A6A6A;
-            
             --border-color: #E8E8E8;
             --shadow-color: #000000;
         }
 
-        /* ========== Reset ========== */
         *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* ========== Base ========== */
         body {
             font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
             background: var(--bg-primary);
@@ -90,11 +72,10 @@
             min-height: 100vh;
             min-height: 100dvh;
             padding: var(--space-md);
-            padding-bottom: 120px;
+            padding-bottom: 140px;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ========== Header ========== */
         .header {
             text-align: center;
             padding: var(--space-lg) 0 var(--space-xl);
@@ -112,7 +93,6 @@
             margin-top: var(--space-xs);
         }
 
-        /* ========== Section ========== */
         .broadcast-section {
             margin-bottom: var(--space-lg);
         }
@@ -127,20 +107,12 @@
             padding-left: var(--space-xs);
         }
 
-        /* ========== Card - Neo-Brutalist ========== */
         .broadcast-card {
             background: var(--bg-card);
             border: var(--border-width) solid var(--border-color);
             border-radius: var(--radius-lg);
             padding: var(--space-lg);
             box-shadow: var(--shadow-md);
-            transition: transform var(--duration-fast) var(--ease-smooth),
-                        box-shadow var(--duration-fast) var(--ease-smooth);
-        }
-
-        .broadcast-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
         }
 
         .broadcast-name {
@@ -149,7 +121,6 @@
             margin-bottom: var(--space-md);
         }
 
-        /* ========== Language Buttons ========== */
         .lang-buttons {
             display: flex;
             gap: var(--space-sm);
@@ -175,7 +146,8 @@
             box-shadow: var(--shadow-sm);
             transition: transform var(--duration-fast) var(--ease-smooth),
                         box-shadow var(--duration-fast) var(--ease-smooth),
-                        background var(--duration-fast) var(--ease-smooth);
+                        background var(--duration-fast) var(--ease-smooth),
+                        border-color var(--duration-fast) var(--ease-smooth);
         }
 
         .lang-btn:hover {
@@ -188,8 +160,19 @@
             box-shadow: 1px 1px 0 0 var(--shadow-color);
         }
 
-        .lang-btn.playing {
+        /* 选中状态 */
+        .lang-btn.selected {
             background: var(--brand-blue);
+            border-color: var(--text-primary);
+        }
+
+        .lang-btn.selected .lang-label {
+            color: var(--text-primary);
+        }
+
+        /* 播放中状态 */
+        .lang-btn.playing {
+            background: var(--semantic-mint);
             border-color: var(--text-primary);
         }
 
@@ -212,11 +195,6 @@
             color: var(--text-secondary);
         }
 
-        .lang-btn.playing .lang-label {
-            color: var(--text-primary);
-        }
-
-        /* Disabled state */
         .lang-btn.disabled {
             opacity: 0.4;
             cursor: not-allowed;
@@ -232,7 +210,7 @@
             transform: none;
         }
 
-        /* ========== Play All Button ========== */
+        /* 播放全部按钮 */
         .play-all-btn {
             width: 100%;
             padding: var(--space-md);
@@ -268,10 +246,6 @@
             background: var(--semantic-coral);
         }
 
-        .play-all-btn .icon {
-            font-size: 1rem;
-        }
-
         /* ========== Player Bar ========== */
         .player-bar {
             position: fixed;
@@ -282,14 +256,10 @@
             border-top: var(--border-width) solid var(--border-color);
             padding: var(--space-md);
             padding-bottom: max(var(--space-md), env(safe-area-inset-bottom));
-            display: none;
+            display: flex;
             align-items: center;
             gap: var(--space-md);
             z-index: 100;
-        }
-
-        .player-bar.active {
-            display: flex;
         }
 
         .player-info {
@@ -310,51 +280,97 @@
             color: var(--text-secondary);
         }
 
-        .player-btn {
-            width: 44px;
+        .player-empty {
+            color: var(--text-disabled);
+            font-size: 0.875rem;
+        }
+
+        /* 控制按钮 - 纯文字/符号，无 emoji */
+        .ctrl-btn {
             height: 44px;
-            background: var(--brand-blue);
+            padding: 0 var(--space-md);
+            background: var(--bg-primary);
             border: var(--border-width) solid var(--border-color);
-            border-radius: var(--radius-full);
-            font-size: 1.25rem;
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: var(--space-xs);
             box-shadow: var(--shadow-sm);
             transition: transform var(--duration-fast) var(--ease-smooth),
-                        box-shadow var(--duration-fast) var(--ease-smooth);
+                        box-shadow var(--duration-fast) var(--ease-smooth),
+                        background var(--duration-fast) var(--ease-smooth);
         }
 
-        .player-btn:hover {
+        .ctrl-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
-        .player-btn:active {
+        .ctrl-btn:active {
             transform: translateY(2px);
             box-shadow: none;
         }
 
-        .stop-btn {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-primary);
-            border: var(--border-width) solid var(--border-color);
-            border-radius: var(--radius-full);
-            font-size: 0.875rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background var(--duration-fast) var(--ease-smooth);
+        .ctrl-btn.primary {
+            background: var(--brand-blue);
+            min-width: 80px;
         }
 
-        .stop-btn:hover {
+        .ctrl-btn.primary:disabled {
+            background: var(--bg-secondary);
+            color: var(--text-disabled);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .ctrl-btn.primary:disabled:hover {
+            transform: none;
+        }
+
+        .ctrl-btn.danger:hover {
             background: var(--semantic-coral);
         }
 
-        /* ========== Help Text ========== */
+        /* 图标用 CSS 绘制 */
+        .icon-play {
+            width: 0;
+            height: 0;
+            border-left: 8px solid var(--text-primary);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            margin-right: 2px;
+        }
+
+        .ctrl-btn.primary:disabled .icon-play {
+            border-left-color: var(--text-disabled);
+        }
+
+        .icon-pause {
+            display: flex;
+            gap: 3px;
+        }
+
+        .icon-pause::before,
+        .icon-pause::after {
+            content: '';
+            width: 4px;
+            height: 12px;
+            background: var(--text-primary);
+        }
+
+        .icon-stop {
+            width: 10px;
+            height: 10px;
+            background: var(--text-primary);
+        }
+
+        /* Help Text */
         .help-text {
             text-align: center;
             color: var(--text-disabled);
@@ -373,7 +389,7 @@
             font-size: 0.7rem;
         }
 
-        /* ========== Theme Toggle ========== */
+        /* Theme Toggle */
         .theme-toggle {
             position: fixed;
             top: var(--space-md);
@@ -383,7 +399,6 @@
             background: var(--bg-card);
             border: var(--border-width) solid var(--border-color);
             border-radius: var(--radius-full);
-            font-size: 1rem;
             cursor: pointer;
             box-shadow: var(--shadow-sm);
             display: flex;
@@ -397,19 +412,38 @@
             transform: translateY(-2px);
         }
 
-        .theme-toggle:active {
-            transform: translateY(2px);
+        /* 用 CSS 绘制太阳/月亮 */
+        .theme-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            position: relative;
         }
 
-        [data-theme="light"] .icon-sun { display: none; }
-        [data-theme="dark"] .icon-moon { display: none; }
+        [data-theme="dark"] .theme-icon {
+            background: transparent;
+            box-shadow: inset -5px -2px 0 0 var(--text-primary);
+        }
+
+        [data-theme="light"] .theme-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            transform: translate(-50%, -50%);
+            background: 
+                linear-gradient(var(--text-primary), var(--text-primary)) center/2px 100%,
+                linear-gradient(var(--text-primary), var(--text-primary)) center/100% 2px;
+            background-repeat: no-repeat;
+        }
     </style>
 </head>
 <body>
-    <!-- Theme Toggle -->
     <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
-        <span class="icon-moon">☀️</span>
-        <span class="icon-sun">🌙</span>
+        <div class="theme-icon"></div>
     </button>
 
     <header class="header">
@@ -436,8 +470,7 @@
                 </button>
             </div>
             <button class="play-all-btn" data-action="play-all">
-                <span class="icon">▶</span>
-                <span>连续播放 Play All</span>
+                选择全部语言 Select All
             </button>
         </div>
     </section>
@@ -468,20 +501,25 @@
         命名格式: <code>oversized-zh.mp3</code> <code>boarding-mn.mp3</code>
     </div>
 
-    <!-- Player Bar -->
+    <!-- Player Bar - 始终显示 -->
     <div class="player-bar" id="playerBar">
         <div class="player-info">
-            <div class="player-title" id="playerTitle">-</div>
-            <div class="player-lang" id="playerLang">-</div>
+            <div class="player-title" id="playerTitle">未选择广播</div>
+            <div class="player-lang" id="playerLang">点击上方按钮选择</div>
         </div>
-        <button class="stop-btn" id="stopBtn">■</button>
-        <button class="player-btn" id="playPauseBtn">⏸</button>
+        <button class="ctrl-btn danger" id="stopBtn">
+            <span class="icon-stop"></span>
+        </button>
+        <button class="ctrl-btn primary" id="playPauseBtn" disabled>
+            <span class="icon-play"></span>
+            <span>播放</span>
+        </button>
     </div>
 
     <audio id="audioPlayer"></audio>
 
     <script>
-        // ========== 配置区 ==========
+        // ========== 配置 ==========
         const broadcasts = {
             oversized: {
                 name: '三超行李提醒',
@@ -503,20 +541,17 @@
 
         const langNames = { zh: '中文', en: 'English', mn: '闽南语' };
 
-        // Elements
         const audioPlayer = document.getElementById('audioPlayer');
-        const playerBar = document.getElementById('playerBar');
         const playerTitle = document.getElementById('playerTitle');
         const playerLang = document.getElementById('playerLang');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const stopBtn = document.getElementById('stopBtn');
         const themeToggle = document.getElementById('themeToggle');
 
-        let currentBroadcast = null;
-        let currentLang = null;
+        let selectedBroadcast = null;
+        let selectedLangs = [];  // 选中的语言列表
+        let currentPlayIndex = 0;
         let isPlaying = false;
-        let playQueue = [];
-        let queueIndex = 0;
 
         // Theme
         function initTheme() {
@@ -548,8 +583,6 @@
                     const lang = btn.dataset.lang;
                     if (!broadcast.audio[lang]) {
                         btn.classList.add('disabled');
-                    } else {
-                        btn.classList.remove('disabled');
                     }
                 });
 
@@ -561,157 +594,185 @@
             });
         }
 
-        // Events
+        // 语言按钮点击 - 选中，不播放
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (btn.classList.contains('disabled')) return;
+                
                 const card = btn.closest('.broadcast-card');
                 const broadcastId = card.dataset.broadcast;
                 const lang = btn.dataset.lang;
-                playBroadcast(broadcastId, lang);
+
+                // 如果选择了不同的广播，重置
+                if (selectedBroadcast !== broadcastId) {
+                    clearAllSelections();
+                    selectedBroadcast = broadcastId;
+                    selectedLangs = [];
+                }
+
+                // 切换选中状态
+                if (btn.classList.contains('selected')) {
+                    btn.classList.remove('selected');
+                    selectedLangs = selectedLangs.filter(l => l !== lang);
+                } else {
+                    btn.classList.add('selected');
+                    selectedLangs.push(lang);
+                }
+
+                updatePlayerInfo();
             });
         });
 
+        // 全选按钮
         document.querySelectorAll('.play-all-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const card = btn.closest('.broadcast-card');
                 const broadcastId = card.dataset.broadcast;
-                
-                if (btn.classList.contains('playing')) {
-                    stopPlay();
-                } else {
-                    playAllLanguages(broadcastId, btn);
-                }
+                const broadcast = broadcasts[broadcastId];
+
+                clearAllSelections();
+                selectedBroadcast = broadcastId;
+                selectedLangs = [];
+
+                // 选中所有可用语言
+                card.querySelectorAll('.lang-btn:not(.disabled)').forEach(langBtn => {
+                    langBtn.classList.add('selected');
+                    selectedLangs.push(langBtn.dataset.lang);
+                });
+
+                updatePlayerInfo();
             });
         });
 
-        playPauseBtn.addEventListener('click', togglePlay);
-        stopBtn.addEventListener('click', stopPlay);
+        // 播放/暂停按钮
+        playPauseBtn.addEventListener('click', () => {
+            if (selectedLangs.length === 0) return;
 
-        audioPlayer.addEventListener('ended', onAudioEnded);
-        audioPlayer.addEventListener('play', () => { isPlaying = true; updateUI(); });
-        audioPlayer.addEventListener('pause', () => { isPlaying = false; updateUI(); });
-        audioPlayer.addEventListener('error', () => {
-            if (playQueue.length > 0) { queueIndex++; playFromQueue(); }
-        });
-
-        function playBroadcast(broadcastId, lang) {
-            const broadcast = broadcasts[broadcastId];
-            if (!broadcast || !broadcast.audio[lang]) return;
-
-            currentBroadcast = broadcastId;
-            currentLang = lang;
-            playQueue = [];
-            queueIndex = 0;
-
-            audioPlayer.src = broadcast.audio[lang];
-            audioPlayer.play().catch(e => console.log('Play error:', e));
-
-            playerTitle.textContent = broadcast.name;
-            playerLang.textContent = langNames[lang];
-            playerBar.classList.add('active');
-            updateActiveButton();
-        }
-
-        function playAllLanguages(broadcastId, btn) {
-            const broadcast = broadcasts[broadcastId];
-            if (!broadcast) return;
-
-            playQueue = [];
-            ['zh', 'en', 'mn'].forEach(lang => {
-                if (broadcast.audio[lang]) {
-                    playQueue.push({ broadcastId, lang });
-                }
-            });
-
-            if (playQueue.length === 0) return;
-
-            queueIndex = 0;
-            currentBroadcast = broadcastId;
-            
-            document.querySelectorAll('.play-all-btn').forEach(b => {
-                b.classList.remove('playing');
-                b.innerHTML = '<span class="icon">▶</span><span>连续播放 Play All</span>';
-            });
-            btn.classList.add('playing');
-            btn.innerHTML = '<span class="icon">■</span><span>停止 Stop</span>';
-
-            playFromQueue();
-        }
-
-        function playFromQueue() {
-            if (queueIndex >= playQueue.length) {
-                resetPlayAllButtons();
-                isPlaying = false;
-                updateUI();
-                return;
-            }
-
-            const item = playQueue[queueIndex];
-            const broadcast = broadcasts[item.broadcastId];
-            
-            currentLang = item.lang;
-            audioPlayer.src = broadcast.audio[item.lang];
-            audioPlayer.play().catch(e => console.log('Play error:', e));
-
-            playerTitle.textContent = broadcast.name;
-            playerLang.textContent = `${langNames[item.lang]} (${queueIndex + 1}/${playQueue.length})`;
-            playerBar.classList.add('active');
-            updateActiveButton();
-        }
-
-        function onAudioEnded() {
-            if (playQueue.length > 0 && queueIndex < playQueue.length - 1) {
-                queueIndex++;
-                playFromQueue();
-            } else {
-                resetPlayAllButtons();
-                isPlaying = false;
-                updateUI();
-            }
-        }
-
-        function togglePlay() {
             if (isPlaying) {
                 audioPlayer.pause();
             } else {
-                audioPlayer.play().catch(e => console.log('Play error:', e));
+                if (audioPlayer.src && audioPlayer.currentTime > 0) {
+                    audioPlayer.play();
+                } else {
+                    currentPlayIndex = 0;
+                    playCurrentFromQueue();
+                }
             }
+        });
+
+        // 停止按钮
+        stopBtn.addEventListener('click', stopPlay);
+
+        // 音频事件
+        audioPlayer.addEventListener('play', () => {
+            isPlaying = true;
+            updatePlayButton();
+            updatePlayingState();
+        });
+
+        audioPlayer.addEventListener('pause', () => {
+            isPlaying = false;
+            updatePlayButton();
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            currentPlayIndex++;
+            if (currentPlayIndex < selectedLangs.length) {
+                playCurrentFromQueue();
+            } else {
+                isPlaying = false;
+                currentPlayIndex = 0;
+                updatePlayButton();
+                clearPlayingState();
+            }
+        });
+
+        audioPlayer.addEventListener('error', () => {
+            currentPlayIndex++;
+            if (currentPlayIndex < selectedLangs.length) {
+                playCurrentFromQueue();
+            }
+        });
+
+        function playCurrentFromQueue() {
+            if (!selectedBroadcast || selectedLangs.length === 0) return;
+
+            const lang = selectedLangs[currentPlayIndex];
+            const broadcast = broadcasts[selectedBroadcast];
+            const audioSrc = broadcast.audio[lang];
+
+            if (!audioSrc) {
+                currentPlayIndex++;
+                if (currentPlayIndex < selectedLangs.length) {
+                    playCurrentFromQueue();
+                }
+                return;
+            }
+
+            audioPlayer.src = audioSrc;
+            audioPlayer.play().catch(e => console.log('Play error:', e));
+
+            playerLang.textContent = `${langNames[lang]} (${currentPlayIndex + 1}/${selectedLangs.length})`;
+            updatePlayingState();
         }
 
         function stopPlay() {
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
-            playQueue = [];
-            queueIndex = 0;
+            audioPlayer.src = '';
             isPlaying = false;
-            playerBar.classList.remove('active');
-            resetPlayAllButtons();
-            updateActiveButton();
+            currentPlayIndex = 0;
+            updatePlayButton();
+            clearPlayingState();
         }
 
-        function resetPlayAllButtons() {
-            document.querySelectorAll('.play-all-btn').forEach(btn => {
-                btn.classList.remove('playing');
-                btn.innerHTML = '<span class="icon">▶</span><span>连续播放 Play All</span>';
+        function clearAllSelections() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('selected', 'playing');
             });
+            selectedBroadcast = null;
+            selectedLangs = [];
+            stopPlay();
         }
 
-        function updateUI() {
-            playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
-            updateActiveButton();
-        }
-
-        function updateActiveButton() {
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('playing'));
-
-            if (currentBroadcast && currentLang && isPlaying) {
-                const card = document.querySelector(`[data-broadcast="${currentBroadcast}"]`);
-                if (card) {
-                    const btn = card.querySelector(`[data-lang="${currentLang}"]`);
-                    if (btn) btn.classList.add('playing');
-                }
+        function updatePlayerInfo() {
+            if (!selectedBroadcast || selectedLangs.length === 0) {
+                playerTitle.textContent = '未选择广播';
+                playerLang.textContent = '点击上方按钮选择';
+                playPauseBtn.disabled = true;
+            } else {
+                const broadcast = broadcasts[selectedBroadcast];
+                playerTitle.textContent = broadcast.name;
+                const langText = selectedLangs.map(l => langNames[l]).join(' → ');
+                playerLang.textContent = langText;
+                playPauseBtn.disabled = false;
             }
+        }
+
+        function updatePlayButton() {
+            if (isPlaying) {
+                playPauseBtn.innerHTML = '<span class="icon-pause"></span><span>暂停</span>';
+            } else {
+                playPauseBtn.innerHTML = '<span class="icon-play"></span><span>播放</span>';
+            }
+        }
+
+        function updatePlayingState() {
+            clearPlayingState();
+            if (!selectedBroadcast || !isPlaying) return;
+
+            const lang = selectedLangs[currentPlayIndex];
+            const card = document.querySelector(`[data-broadcast="${selectedBroadcast}"]`);
+            if (card) {
+                const btn = card.querySelector(`[data-lang="${lang}"]`);
+                if (btn) btn.classList.add('playing');
+            }
+        }
+
+        function clearPlayingState() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('playing');
+            });
         }
 
         init();
