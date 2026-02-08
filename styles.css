@@ -157,16 +157,18 @@ h4 { font-size: 1.25rem; }
     transition: background-color var(--duration-slow) var(--ease);
 }
 
-.logo-icon {
-    font-size: 2.5rem;
-    margin-bottom: var(--space-2);
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    border: var(--border-width) solid var(--border);
+    background: var(--accent);
+    padding: var(--space-2) var(--space-4);
+    box-shadow: var(--shadow);
     display: inline-block;
-    animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    transition: all var(--duration) var(--ease);
 }
 
 .logo h1 {

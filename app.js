@@ -7,7 +7,7 @@
 let broadcasts = [];
 let currentBroadcast = null;
 let currentLang = 'zh';
-let currentCategory = 'all';
+let currentCategory = 'oversized';
 let searchQuery = '';
 let langFilter = 'all';
 let isPlaying = false;
@@ -65,21 +65,10 @@ function init() {
 }
 
 function addDemoData() {
-    // Add some demo broadcasts for demonstration
+    // Add two demo broadcasts
     broadcasts = [
         {
             id: Date.now() + 1,
-            name: 'CA1234 登机广播',
-            category: 'boarding',
-            createdAt: new Date().toISOString(),
-            audio: {
-                zh: null,
-                en: null,
-                mn: null
-            }
-        },
-        {
-            id: Date.now() + 2,
             name: '三超行李提醒',
             category: 'oversized',
             createdAt: new Date().toISOString(),
@@ -90,13 +79,11 @@ function addDemoData() {
             }
         },
         {
-            id: Date.now() + 3,
-            name: 'MU5678 延误通知',
-            category: 'delay',
+            id: Date.now() + 2,
+            name: '登机广播',
+            category: 'boarding',
             createdAt: new Date().toISOString(),
             audio: {
-                zh: null,
-                en: null,
                 mn: null
             }
         }
