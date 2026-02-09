@@ -428,11 +428,11 @@
         <div class="broadcast-card" data-broadcast="ca189">
             <div class="broadcast-name">CA189 登机广播</div>
             <div class="lang-buttons">
-                <button class="lang-btn disabled" data-lang="zh">
+                <button class="lang-btn" data-lang="zh">
                     <span class="lang-icon">中</span>
                     <span class="lang-label">中文</span>
                 </button>
-                <button class="lang-btn disabled" data-lang="en">
+                <button class="lang-btn" data-lang="en">
                     <span class="lang-icon">En</span>
                     <span class="lang-label">English</span>
                 </button>
@@ -441,6 +441,33 @@
                     <span class="lang-label">闽南语</span>
                 </button>
             </div>
+            <button class="play-all-btn" data-action="play-all">
+                选择全部语言 Select All
+            </button>
+        </div>
+    </section>
+
+    <section class="broadcast-section">
+        <h2 class="section-title">最后登机 · Final Boarding</h2>
+        <div class="broadcast-card" data-broadcast="ca189final">
+            <div class="broadcast-name">CA189 最后登机广播</div>
+            <div class="lang-buttons">
+                <button class="lang-btn" data-lang="zh">
+                    <span class="lang-icon">中</span>
+                    <span class="lang-label">中文</span>
+                </button>
+                <button class="lang-btn" data-lang="en">
+                    <span class="lang-icon">En</span>
+                    <span class="lang-label">English</span>
+                </button>
+                <button class="lang-btn" data-lang="mn">
+                    <span class="lang-icon">閩</span>
+                    <span class="lang-label">闽南语</span>
+                </button>
+            </div>
+            <button class="play-all-btn" data-action="play-all">
+                选择全部语言 Select All
+            </button>
         </div>
     </section>
 
@@ -475,9 +502,17 @@
             ca189: {
                 name: 'CA189 登机广播',
                 audio: {
-                    zh: null,
-                    en: null,
-                    mn: 'audio/ca189-mn.mp3'
+                    zh: 'audio/ca189bd-zh.mp3',
+                    en: 'audio/ca189bd-en.mp3',
+                    mn: 'audio/ca189-bd-mn.mp3'
+                }
+            },
+            ca189final: {
+                name: 'CA189 最后登机广播',
+                audio: {
+                    zh: 'audio/ca189fb-zh.mp3',
+                    en: 'audio/ca189fb-en.mp3',
+                    mn: 'audio/ca189fb-mn.mp3'
                 }
             },
         };
